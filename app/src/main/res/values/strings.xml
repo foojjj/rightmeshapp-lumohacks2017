@@ -1,0 +1,9 @@
+<resources>
+    <string-array name="answer_array">
+        <item>Not at all</item>
+        <item>Several days</item>
+        <item>More than half the days</item>
+        <item>Nearly every day </item>
+    </string-array>
+
+</resources>

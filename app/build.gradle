@@ -1,0 +1,66 @@
+apply plugin: 'com.android.application'
+
+project.ext.set("artifactory_app_username", "fooj")
+project.ext.set("artifactory_app_password","944803174700501af1fa4ae181d7cb9d")
+project.ext.set("artifactory_app_key", "0x87699c3373f479f8f74b058f5287af7a19eff9c3")
+
+buildscript {
+    repositories {
+        maven {
+            url "http://research.rightmesh.io/artifactory/libs-local"
+            credentials {
+                username "fooj"
+                password "944803174700501af1fa4ae181d7cb9d"
+            }
+        }
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath 'io.left.rightmesh:rightmesh-plugin:1.2'
+    }
+}
+apply plugin: 'io.left.rightmesh.rightmesh-plugin'
+preBuild.dependsOn("rightmesh")
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven {
+        url "http://research.rightmesh.io/artifactory/libs-local"
+        credentials {
+            username artifactory_app_username
+            password artifactory_app_password
+        }
+    }
+}
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+    defaultConfig {
+        applicationId "io.left.hellomesh"
+        minSdkVersion 14
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+    }
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile 'com.android.support:multidex:1.0.1'
+    compile ('io.left.rightmesh:rightmesh-library-dev:0.3.1')
+    compile 'com.android.support:appcompat-v7:25.3.1'
+
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+}
